@@ -66,3 +66,59 @@ Para variar o nivel de luinosidade basta clicar no LDR e alterar conforme deseja
 Os valores limites de luminosidade aceitável e luminosidade alarmante poder ser editados nas linhas 14 e 15, respectivamente.
 
 Serão considerados críticos os valores maiores que o valor limite de luminosidade alarmante (linha 15).
+
+<b>Código:</b>
+
+const int ldrPin = A0;
+<br>const int greenLedPin = 2;
+<br>const int yellowLedPin = 1;
+<br>const int redLedPin = 0;
+<br>const int buzzerPin = 4;
+<br>
+const int okLevel = 900;
+<br>const int alertLevel = 950;
+
+int ldrValue = 0;
+
+unsigned long buzzerStartTime = 0;
+
+void setup() {
+<br>  pinMode(ldrPin, INPUT);
+<br>  pinMode(greenLedPin, OUTPUT);
+<br>  pinMode(yellowLedPin, OUTPUT);
+<br>  pinMode(redLedPin, OUTPUT);
+<br>  pinMode(buzzerPin, OUTPUT);
+
+  digitalWrite(greenLedPin, LOW);
+<br>  digitalWrite(yellowLedPin, LOW);
+<br>  digitalWrite(redLedPin, LOW);
+<br>  noTone(buzzerPin);
+<br>}
+
+void loop() {
+<br>  ldrValue = analogRead(ldrPin);
+<br>  if (ldrValue <= okLevel) {
+<br>    digitalWrite(greenLedPin, HIGH);
+<br>    digitalWrite(yellowLedPin, LOW);
+<br>    digitalWrite(redLedPin, LOW);
+  
+<br>    noTone(buzzerPin);
+<br>  }
+<br>  else if (ldrValue <= alertLevel) {
+<br>    digitalWrite(greenLedPin, LOW);
+<br>    digitalWrite(yellowLedPin, HIGH);
+<br>    digitalWrite(redLedPin, LOW);
+  
+<br>    noTone(buzzerPin);
+<br>  }
+<br>  else {
+<br>    digitalWrite(greenLedPin, LOW);
+<br>    digitalWrite(yellowLedPin, LOW);
+<br>    digitalWrite(redLedPin, HIGH);
+   
+<br>    tone(buzzerPin, 1000);
+<br>    delay(3000);
+<br>    noTone(buzzerPin);
+<br>    //delay(2000);
+<br>  }
+<br>}
